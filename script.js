@@ -22,42 +22,11 @@ document.getElementById('generateButton').addEventListener('click', () => {
         return;
     }
 
-    const maxCharsPerSquare = 700; // Adjust based on text size
-    const chunks = splitContent(content, maxCharsPerSquare); // Split text into chunks
+    // Log content for debugging
+    console.log("Content to process:", content);
 
-    if (chunks.length === 0) {
-        alert("No content to generate squares.");
-        return;
-    }
-
-    chunks.forEach((chunk, index) => {
-        createSquare(chunk, index); // Generate squares for each chunk
-    });
+    createSquare(content, 0); // Generate a single square for now
 });
-
-// Function to Split Content into Smaller Chunks
-function splitContent(content, maxChars) {
-    const div = document.createElement('div');
-    div.innerHTML = content;
-    const chunks = [];
-    let currentChunk = '';
-
-    Array.from(div.childNodes).forEach(node => {
-        const nodeHtml = node.outerHTML || node.textContent;
-        if (currentChunk.length + nodeHtml.length > maxChars) {
-            chunks.push(currentChunk);
-            currentChunk = nodeHtml;
-        } else {
-            currentChunk += nodeHtml;
-        }
-    });
-
-    if (currentChunk.trim()) {
-        chunks.push(currentChunk.trim());
-    }
-
-    return chunks;
-}
 
 // Function to Create an Individual Square
 function createSquare(content, index) {
