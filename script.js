@@ -64,15 +64,21 @@ function createSquare(content, index) {
     const squareContainer = document.createElement('div');
     squareContainer.classList.add('squareContainer');
 
-    // Use innerHTML for formatted content
-    squareContainer.innerHTML = content;
+    // Add text container inside the square
+    const textContainer = document.createElement('div');
+    textContainer.classList.add('squareText');
+    textContainer.innerHTML = content;
+
+    squareContainer.appendChild(textContainer);
 
     // Append square to the preview section
     const squarePreview = document.getElementById('squarePreview');
     squarePreview.appendChild(squareContainer);
 
     // Convert squareContainer to canvas
-    html2canvas(squareContainer).then(canvas => {
+    html2canvas(squareContainer, {
+        scale: 2, // Higher scale for better resolution
+    }).then(canvas => {
         squareContainer.innerHTML = ''; // Clear inner content
         squareContainer.appendChild(canvas);
 
