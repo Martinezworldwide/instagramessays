@@ -5,7 +5,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height: 100vh;
     background-color: #f4f4f4;
 }
 
@@ -19,10 +19,14 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-#editor {
-    height: 200px;
+textarea {
+    width: 100%;
+    height: 150px;
     margin-bottom: 20px;
+    padding: 10px;
+    font-size: 16px;
     border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 button {
@@ -33,7 +37,6 @@ button {
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
-    margin: 10px 0;
 }
 
 button:hover {
@@ -49,24 +52,24 @@ button:hover {
 }
 
 .imageContainer {
-    position: relative;
-    display: inline-block;
-    margin: 10px;
     text-align: center;
+    margin-bottom: 20px;
 }
 
-.imageContainer canvas {
+canvas {
     border: 1px solid #ddd;
     border-radius: 5px;
+    display: block;
+    margin: 0 auto;
 }
 
 .downloadButton {
     margin-top: 10px;
-    display: block;
-    font-size: 14px;
+    display: inline-block;
     text-decoration: none;
     color: #fff;
     background-color: #007BFF;
     padding: 5px 10px;
     border-radius: 5px;
+    font-size: 14px;
 }
