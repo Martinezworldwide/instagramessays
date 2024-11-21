@@ -64,22 +64,22 @@ button:hover {
     height: 1080px;
     border: 1px solid #ddd;
     box-sizing: border-box;
-    background-color: #ffffff;
+    background-color: #ffffff; /* Default white background */
     overflow: hidden;
     display: flex;
-    justify-content: center; /* Center vertically */
-    align-items: center; /* Center horizontally */
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px;
 }
 
 /* Text Inside the Square */
 .squareText {
     font-family: Arial, sans-serif;
-    color: #fff; /* Default text color */
+    color: #000; /* Default black text color */
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: pre-wrap;
-    margin: auto;
-    text-align: center;
 }
 
 /* Download Button */
@@ -94,4 +94,3 @@ button:hover {
     font-size: 14px;
     text-decoration: none;
 }
-
