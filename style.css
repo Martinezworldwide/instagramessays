@@ -1,4 +1,4 @@
-/* General Styles */
+/* General Styling */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -21,7 +21,7 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* QuillJS Editor */
+/* QuillJS Editor Styling */
 #editor {
     height: 200px;
     margin-bottom: 20px;
@@ -32,7 +32,7 @@ body {
     overflow-y: auto;
 }
 
-/* Buttons */
+/* Button Styling */
 button {
     background-color: #007BFF;
     color: #fff;
@@ -60,29 +60,29 @@ button:hover {
 /* Square Container for Each Text Block */
 .squareContainer {
     position: relative;
-    width: 1080px;
+    width: 1080px; /* Exact Instagram square dimensions */
     height: 1080px;
     border: 1px solid #ddd;
     box-sizing: border-box;
     background-color: #ffffff;
     overflow: hidden;
     display: flex;
-    justify-content: center;
-    align-items: flex-start; /* Align text at the top */
-    padding: 20px;
-    text-align: left;
+    flex-direction: column; /* Ensure text flows top-to-bottom */
+    justify-content: flex-start; /* Align text at the top */
+    align-items: flex-start; /* Align text to the left */
+    padding: 40px; /* Add padding for spacing */
 }
 
 /* Text Inside the Square */
 .squareText {
-    width: 100%;
     font-family: Arial, sans-serif;
-    font-size: 32px; /* Default font size */
+    font-size: 32px; /* Default font size for readability */
     line-height: 1.5;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    white-space: pre-wrap;
+    white-space: pre-wrap; /* Preserve spacing and line breaks */
     color: #000;
+    text-align: left; /* Ensure text aligns to the left */
 }
 
 /* Download Button */
