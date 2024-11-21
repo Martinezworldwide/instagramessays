@@ -22,11 +22,42 @@ document.getElementById('generateButton').addEventListener('click', () => {
         return;
     }
 
-    // Log content for debugging
-    console.log("Content to process:", content);
+    const maxCharsPerSquare = 700; // Adjust based on text size
+    const chunks = splitContent(content, maxCharsPerSquare); // Split text into chunks
 
-    createSquare(content, 0); // Generate a single square for now
+    if (chunks.length === 0) {
+        alert("No content to generate squares.");
+        return;
+    }
+
+    chunks.forEach((chunk, index) => {
+        createSquare(chunk, index); // Generate squares for each chunk
+    });
 });
+
+// Function to Split Content into Smaller Chunks
+function splitContent(content, maxChars) {
+    const div = document.createElement('div');
+    div.innerHTML = content;
+    const chunks = [];
+    let currentChunk = '';
+
+    Array.from(div.childNodes).forEach(node => {
+        const nodeHtml = node.outerHTML || node.textContent;
+        if (currentChunk.length + nodeHtml.length > maxChars) {
+            chunks.push(currentChunk);
+            currentChunk = nodeHtml;
+        } else {
+            currentChunk += nodeHtml;
+        }
+    });
+
+    if (currentChunk.trim()) {
+        chunks.push(currentChunk.trim());
+    }
+
+    return chunks;
+}
 
 // Function to Create an Individual Square
 function createSquare(content, index) {
@@ -34,13 +65,16 @@ function createSquare(content, index) {
     squareContainer.classList.add('squareContainer');
     squareContainer.innerHTML = content;
 
-    // Convert to canvas
+    // Append square to the preview section
+    const squarePreview = document.getElementById('squarePreview');
+    squarePreview.appendChild(squareContainer);
+
+    // Convert squareContainer to canvas
     html2canvas(squareContainer).then(canvas => {
-        // Clear the container and replace it with the canvas
-        squareContainer.innerHTML = '';
+        squareContainer.innerHTML = ''; // Clear inner content
         squareContainer.appendChild(canvas);
 
-        // Add a download button
+        // Add download button
         const downloadButton = document.createElement('a');
         downloadButton.classList.add('downloadButton');
         downloadButton.textContent = 'Download';
@@ -48,7 +82,6 @@ function createSquare(content, index) {
         downloadButton.download = `square_${index + 1}.png`;
 
         squareContainer.appendChild(downloadButton);
-        document.getElementById('squarePreview').appendChild(squareContainer);
     }).catch(err => {
         console.error("Error generating square:", err);
     });
