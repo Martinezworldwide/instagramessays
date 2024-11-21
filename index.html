@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rich Text to Images</title>
+    <title>Screenshot Generator</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Include QuillJS CSS -->
-    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <h1>Rich Text to Images Generator</h1>
+        <h1>Rich Text Screenshot Generator</h1>
         <!-- Rich Text Editor -->
-        <div id="editor"></div>
-        <button id="generateButton">Generate Images</button>
-        <div id="imagePreview"></div>
+        <div contenteditable="true" id="screenshotArea">
+            <p>Type or paste your formatted text here!</p>
+            <p><b>Bold text</b>, <i>italic text</i>, <u>underlined text</u>, and more!</p>
+            <ul>
+                <li>First bullet</li>
+                <li>Second bullet</li>
+            </ul>
+        </div>
+        <p>
+            <strong>Instructions:</strong> Customize your text and formatting above. Take a screenshot when you're done!
+        </p>
     </div>
-    <!-- Include QuillJS and html2canvas -->
-    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="script.js"></script>
 </body>
 </html>
