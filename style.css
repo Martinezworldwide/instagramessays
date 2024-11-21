@@ -1,3 +1,4 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -20,6 +21,7 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* QuillJS Editor */
 #editor {
     height: 200px;
     margin-bottom: 20px;
@@ -30,6 +32,7 @@ body {
     overflow-y: auto;
 }
 
+/* Buttons */
 button {
     background-color: #007BFF;
     color: #fff;
@@ -45,6 +48,7 @@ button:hover {
     background-color: #0056b3;
 }
 
+/* Preview Section */
 #squarePreview {
     display: flex;
     flex-wrap: wrap;
@@ -53,25 +57,35 @@ button:hover {
     margin-top: 20px;
 }
 
+/* Square Container for Each Text Block */
 .squareContainer {
     position: relative;
     width: 1080px;
     height: 1080px;
     border: 1px solid #ddd;
     box-sizing: border-box;
-    display: flex;
-    justify-content: start; /* Align text at the top */
-    align-items: start; /* Align text at the top */
     background-color: #ffffff;
-    text-align: left; /* Ensure text aligns to the left */
-    padding: 40px;
     overflow: hidden;
-    font-family: Arial, sans-serif; /* Match editor font */
-    font-size: 32px; /* Adjust for readability */
-    line-height: 1.5;
-    word-wrap: break-word;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align text at the top */
+    padding: 20px;
+    text-align: left;
 }
 
+/* Text Inside the Square */
+.squareText {
+    width: 100%;
+    font-family: Arial, sans-serif;
+    font-size: 32px; /* Default font size */
+    line-height: 1.5;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    color: #000;
+}
+
+/* Download Button */
 .downloadButton {
     position: absolute;
     bottom: 10px;
