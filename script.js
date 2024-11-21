@@ -77,17 +77,13 @@ function createSquare(content, index, fontSize, lineHeight) {
     const squareContainer = document.createElement('div');
     squareContainer.classList.add('squareContainer');
 
-    // Add customization options
+    // Add text container inside the square
     const textContainer = document.createElement('div');
     textContainer.classList.add('squareText');
     textContainer.innerHTML = content; // Use HTML content with formatting
     textContainer.style.fontSize = `${fontSize}px`;
     textContainer.style.lineHeight = `${lineHeight}`;
-    textContainer.style.textAlign = 'center'; // Center-align text
-    textContainer.style.color = '#ffffff'; // Default font color (white)
-    textContainer.style.margin = 'auto'; // Center vertically
 
-    squareContainer.style.backgroundColor = '#007BFF'; // Default background color
     squareContainer.appendChild(textContainer);
 
     // Append square to the preview section
