@@ -22,12 +22,12 @@ document.getElementById('generateButton').addEventListener('click', () => {
         return;
     }
 
-    const maxHeight = 1080; // Instagram square height in pixels
     const fontSize = 18; // Font size optimized for Instagram
     const lineHeight = 1.5; // Line spacing for readability
+    const maxHeight = 1080; // Instagram square height in pixels
 
-    // Split content into chunks based on rendered height
-    const chunks = splitContentByHeight(content, fontSize, lineHeight, maxHeight);
+    // Split content into chunks based on height and length
+    const chunks = splitContentFallback(content, fontSize, lineHeight, maxHeight);
 
     if (chunks.length === 0) {
         alert("No content to generate squares.");
@@ -39,8 +39,8 @@ document.getElementById('generateButton').addEventListener('click', () => {
     });
 });
 
-// Function to Split Content by Rendered Height
-function splitContentByHeight(content, fontSize, lineHeight, maxHeight) {
+// Function to Split Content with Height Fallback
+function splitContentFallback(content, fontSize, lineHeight, maxHeight) {
     const div = document.createElement('div');
     div.style.visibility = 'hidden';
     div.style.position = 'absolute';
@@ -55,14 +55,14 @@ function splitContentByHeight(content, fontSize, lineHeight, maxHeight) {
     let currentChunk = '';
     let remainingContent = content;
 
+    // While there's content left to process
     while (remainingContent) {
         div.innerHTML = currentChunk + remainingContent;
 
         if (div.offsetHeight > maxHeight) {
-            // Find the point where the content fits
-            let lastFit = currentChunk.length;
-
-            for (let i = currentChunk.length; i < div.innerHTML.length; i++) {
+            // Height-based splitting
+            let lastFit = 0;
+            for (let i = 0; i < remainingContent.length; i++) {
                 div.innerHTML = remainingContent.slice(0, i);
                 if (div.offsetHeight > maxHeight) {
                     break;
@@ -78,9 +78,14 @@ function splitContentByHeight(content, fontSize, lineHeight, maxHeight) {
             remainingContent = remainingContent.slice(lastFit).trim();
             currentChunk = '';
         } else {
-            // Add all remaining content as the last chunk
-            chunks.push(remainingContent.trim());
-            break;
+            // If height is fine but length overflows as a backup
+            if (remainingContent.length > 1000) {
+                chunks.push(remainingContent.slice(0, 1000).trim());
+                remainingContent = remainingContent.slice(1000).trim();
+            } else {
+                chunks.push(remainingContent.trim());
+                break;
+            }
         }
     }
 
