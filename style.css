@@ -11,7 +11,7 @@ body {
 
 .container {
     width: 90%;
-    max-width: 600px;
+    max-width: 1080px; /* Ensure perfect Instagram square dimensions */
     text-align: center;
     background: #fff;
     padding: 20px;
@@ -19,24 +19,28 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-#screenshotArea {
-    width: 100%;
-    min-height: 300px;
+#editorContainer {
+    width: 1080px; /* Matches Instagram square */
+    height: 1080px; /* Matches Instagram square */
     border: 1px solid #ccc;
-    padding: 10px;
-    background-color: #ffffff;
-    border-radius: 5px;
-    text-align: left;
-    font-size: 18px;
-    line-height: 1.6;
-    overflow: auto;
+    background-color: #ffffff; /* Ensure text is visible */
+    padding: 20px;
+    overflow: hidden;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
-#screenshotArea ul {
-    padding-left: 20px;
+#editor {
+    height: 100%; /* Fill container height */
+    font-size: 24px; /* Adjust font size for readability */
+    color: #000000; /* Ensure text is visible */
+    line-height: 1.6; /* Improve readability */
 }
 
-#screenshotArea p,
-#screenshotArea ul li {
+p, ul, ol {
     margin: 10px 0;
+}
+
+ul, ol {
+    padding-left: 40px;
 }
