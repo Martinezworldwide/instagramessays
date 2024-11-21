@@ -60,29 +60,27 @@ button:hover {
 /* Square Container for Each Text Block */
 .squareContainer {
     position: relative;
-    width: 1080px; /* Exact Instagram square dimensions */
+    width: 1080px;
     height: 1080px;
     border: 1px solid #ddd;
     box-sizing: border-box;
     background-color: #ffffff;
-    overflow: hidden; /* Prevent text overflow */
+    overflow: hidden;
     display: flex;
-    flex-direction: column; /* Ensure text flows top-to-bottom */
-    justify-content: flex-start; /* Align text at the top */
-    align-items: flex-start; /* Align text to the left */
-    padding: 40px; /* Add padding for spacing */
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px;
 }
 
 /* Text Inside the Square */
 .squareText {
     font-family: Arial, sans-serif;
-    font-size: 32px; /* Default font size for readability */
-    line-height: 1.5;
+    color: #000;
+    text-align: left;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    white-space: pre-wrap; /* Preserve spacing and line breaks */
-    color: #000;
-    text-align: left; /* Ensure text aligns to the left */
+    white-space: pre-wrap;
 }
 
 /* Download Button */
