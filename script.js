@@ -1,107 +1,82 @@
-document.getElementById('generateButton').addEventListener('click', () => {
-    const text = document.getElementById('essayInput').value;
-    if (!text.trim()) {
-        alert('Please enter some text to generate images.');
-        return;
+// Initialize QuillJS Editor
+const quill = new Quill('#editor', {
+    theme: 'snow',
+    modules: {
+        toolbar: [
+            ['bold', 'italic', 'underline', 'strike'], // Formatting buttons
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Lists
+            [{ 'align': [] }], // Alignment
+            ['clean'] // Clear formatting
+        ]
     }
+});
 
-    const maxCharsPerImage = 900; // Adjust this to fit more or fewer characters per image
+// Event Listener for "Generate Images"
+document.getElementById('generateButton').addEventListener('click', () => {
+    const content = quill.root.innerHTML; // Get the formatted content
+    const maxLength = 1200; // Maximum characters per image
+    const chunks = splitContent(content, maxLength); // Split content into manageable chunks
     const imagePreview = document.getElementById('imagePreview');
     imagePreview.innerHTML = ''; // Clear previous images
 
-    const chunks = splitTextIntoChunks(text, maxCharsPerImage);
-
     chunks.forEach((chunk, index) => {
-        createImage(chunk, index);
+        createImage(chunk, index); // Generate images for each chunk
     });
 });
 
-// Split text into manageable chunks
-function splitTextIntoChunks(text, maxChars) {
-    const words = text.split(' ');
+// Function to Split Content into Chunks
+function splitContent(html, maxLength) {
+    const div = document.createElement('div');
+    div.innerHTML = html;
     const chunks = [];
     let currentChunk = '';
 
-    words.forEach(word => {
-        if ((currentChunk + word).length > maxChars) {
-            chunks.push(currentChunk.trim());
-            currentChunk = word + ' ';
+    Array.from(div.childNodes).forEach(node => {
+        const nodeHtml = node.outerHTML || node.textContent;
+        if (currentChunk.length + nodeHtml.length > maxLength) {
+            chunks.push(currentChunk);
+            currentChunk = nodeHtml;
         } else {
-            currentChunk += word + ' ';
+            currentChunk += nodeHtml;
         }
     });
 
-    if (currentChunk.trim()) {
-        chunks.push(currentChunk.trim());
-    }
-
+    if (currentChunk) chunks.push(currentChunk);
     return chunks;
 }
 
-// Create an image from a text chunk
-function createImage(text, index) {
-    const canvas = document.createElement('canvas');
-    const size = 1080; // Instagram square size
-    canvas.width = size;
-    canvas.height = size;
+// Function to Create an Image for a Chunk
+function createImage(content, index) {
+    const container = document.createElement('div');
+    container.innerHTML = content;
+    container.style.width = '1080px';
+    container.style.height = '1080px';
+    container.style.backgroundColor = '#ffffff';
+    container.style.color = '#000000';
+    container.style.padding = '50px';
+    container.style.boxSizing = 'border-box';
+    container.style.fontFamily = 'Arial, sans-serif';
+    container.style.fontSize = '24px';
+    container.style.lineHeight = '1.5';
+    container.style.textAlign = 'center';
 
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#ffffff'; // Background color
-    ctx.fillRect(0, 0, size, size);
+    html2canvas(container).then(canvas => {
+        const imageContainer = document.createElement('div');
+        imageContainer.classList.add('imageContainer');
 
-    ctx.fillStyle = '#000000'; // Text color
-    ctx.font = '24px Arial';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'top';
+        // Add the canvas
+        imageContainer.appendChild(canvas);
 
-    // Split text into lines
-    const lineHeight = 30;
-    const maxWidth = size - 100;
-    const lines = wrapText(ctx, text, maxWidth);
+        // Add the download button
+        const downloadButton = document.createElement('a');
+        downloadButton.classList.add('downloadButton');
+        downloadButton.textContent = 'Download Image';
+        downloadButton.href = canvas.toDataURL('image/png');
+        downloadButton.download = `image_${index + 1}.png`;
+        imageContainer.appendChild(downloadButton);
 
-    // Draw text lines on the canvas
-    lines.forEach((line, i) => {
-        ctx.fillText(line, size / 2, 50 + i * lineHeight);
+        // Append to the preview
+        document.getElementById('imagePreview').appendChild(imageContainer);
     });
-
-    // Add canvas to the page
-    const imageContainer = document.createElement('div');
-    imageContainer.classList.add('imageContainer');
-
-    imageContainer.appendChild(canvas);
-
-    // Add download button
-    const downloadButton = document.createElement('a');
-    downloadButton.classList.add('downloadButton');
-    downloadButton.textContent = 'Download Image';
-    downloadButton.href = canvas.toDataURL('image/png');
-    downloadButton.download = `image_${index + 1}.png`;
-
-    imageContainer.appendChild(downloadButton);
-    document.getElementById('imagePreview').appendChild(imageContainer);
-}
-
-// Wrap text for canvas
-function wrapText(ctx, text, maxWidth) {
-    const words = text.split(' ');
-    const lines = [];
-    let currentLine = '';
-
-    words.forEach(word => {
-        const testLine = currentLine + word + ' ';
-        const metrics = ctx.measureText(testLine);
-        if (metrics.width > maxWidth) {
-            lines.push(currentLine.trim());
-            currentLine = word + ' ';
-        } else {
-            currentLine = testLine;
-        }
-    });
-
-    if (currentLine.trim()) {
-        lines.push(currentLine.trim());
-    }
-
-    return lines;
 }
 
