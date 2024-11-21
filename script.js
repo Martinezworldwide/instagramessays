@@ -1,4 +1,4 @@
-// Initialize QuillJS Editor
+/// Initialize QuillJS Editor
 const quill = new Quill('#editor', {
     theme: 'snow',
     modules: {
