@@ -63,6 +63,8 @@ button:hover {
     justify-content: center;
     align-items: center;
     background-color: #ffffff;
+    text-align: center;
+    padding: 20px;
     overflow: hidden;
 }
 
