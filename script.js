@@ -63,6 +63,8 @@ function splitContent(content, maxChars) {
 function createSquare(content, index) {
     const squareContainer = document.createElement('div');
     squareContainer.classList.add('squareContainer');
+
+    // Use innerHTML for formatted content
     squareContainer.innerHTML = content;
 
     // Append square to the preview section
