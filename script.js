@@ -13,12 +13,22 @@ const quill = new Quill('#editor', {
 
 // Handle Generate Squares Button Click
 document.getElementById('generateButton').addEventListener('click', () => {
-    const content = quill.root.innerHTML; // Get the formatted content
+    const content = quill.root.innerHTML.trim(); // Get the formatted content
     const squarePreview = document.getElementById('squarePreview');
     squarePreview.innerHTML = ''; // Clear previous squares
 
+    if (!content) {
+        alert("Please add some content to generate squares.");
+        return;
+    }
+
     const maxCharsPerSquare = 700; // Adjust based on text size
     const chunks = splitContent(content, maxCharsPerSquare); // Split text into chunks
+
+    if (chunks.length === 0) {
+        alert("No content to generate squares.");
+        return;
+    }
 
     chunks.forEach((chunk, index) => {
         createSquare(chunk, index); // Generate squares for each chunk
@@ -65,4 +75,12 @@ function createSquare(content, index) {
         const downloadButton = document.createElement('a');
         downloadButton.classList.add('downloadButton');
         downloadButton.textContent = 'Download';
-        downloadButton.href = canvas.toDataURL('image/png
+        downloadButton.href = canvas.toDataURL('image/png');
+        downloadButton.download = `square_${index + 1}.png`;
+
+        squareContainer.appendChild(downloadButton);
+        document.getElementById('squarePreview').appendChild(squareContainer);
+    }).catch(err => {
+        console.error("Error generating square:", err);
+    });
+}
