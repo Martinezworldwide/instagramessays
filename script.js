@@ -22,7 +22,7 @@ document.getElementById('generateButton').addEventListener('click', () => {
         return;
     }
 
-    const maxCharsPerSquare = 700; // Adjust based on text size
+    const maxCharsPerSquare = 500; // Limit characters to avoid overflow
     const chunks = splitContent(content, maxCharsPerSquare); // Split text into chunks
 
     if (chunks.length === 0) {
@@ -77,6 +77,8 @@ function createSquare(content, index) {
 
     // Convert squareContainer to canvas
     html2canvas(squareContainer, {
+        width: 1080,
+        height: 1080,
         scale: 2, // Higher resolution for better quality
     }).then(canvas => {
         squareContainer.innerHTML = ''; // Clear inner content
