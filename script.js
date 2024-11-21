@@ -12,40 +12,40 @@ const quill = new Quill('#editor', {
 });
 
 document.getElementById('generateButton').addEventListener('click', () => {
-    const content = quill.root.innerHTML; // Get HTML content
-    const maxLength = 900; // Max characters per square
-    const chunks = splitText(content, maxLength);
+    const content = quill.root.innerHTML; // Get formatted HTML content
+    const maxLength = 1500; // Max characters per square
+    const chunks = splitContent(content, maxLength); // Split content into manageable chunks
     const imagePreview = document.getElementById('imagePreview');
-    imagePreview.innerHTML = '';
+    imagePreview.innerHTML = ''; // Clear previous images
 
     chunks.forEach((chunk, index) => {
-        createSquare(chunk, index);
+        createImage(chunk, index); // Generate images for each chunk
     });
 });
 
-// Split text into chunks while preserving formatting
-function splitText(html, maxLength) {
+// Split content into smaller chunks
+function splitContent(html, maxLength) {
     const div = document.createElement('div');
     div.innerHTML = html;
-    const textChunks = [];
+    const chunks = [];
     let currentChunk = '';
 
     Array.from(div.childNodes).forEach(node => {
         const nodeHtml = node.outerHTML || node.textContent;
         if (currentChunk.length + nodeHtml.length > maxLength) {
-            textChunks.push(currentChunk);
+            chunks.push(currentChunk);
             currentChunk = nodeHtml;
         } else {
             currentChunk += nodeHtml;
         }
     });
 
-    if (currentChunk) textChunks.push(currentChunk);
-    return textChunks;
+    if (currentChunk) chunks.push(currentChunk);
+    return chunks;
 }
 
-// Create a square with HTML content
-function createSquare(content, index) {
+// Create an image for a chunk
+function createImage(content, index) {
     const container = document.createElement('div');
     container.innerHTML = content;
     container.style.width = '1080px';
@@ -63,17 +63,18 @@ function createSquare(content, index) {
         const imageContainer = document.createElement('div');
         imageContainer.classList.add('imageContainer');
 
-        // Add canvas to container
+        // Add the canvas
         imageContainer.appendChild(canvas);
 
-        // Create download button
+        // Add the download button
         const downloadButton = document.createElement('a');
         downloadButton.classList.add('downloadButton');
         downloadButton.textContent = 'Download';
         downloadButton.href = canvas.toDataURL('image/png');
         downloadButton.download = `square_${index + 1}.png`;
-
         imageContainer.appendChild(downloadButton);
+
+        // Append to the preview
         document.getElementById('imagePreview').appendChild(imageContainer);
     });
 }
