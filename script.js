@@ -1,6 +1,6 @@
 document.getElementById('generateButton').addEventListener('click', () => {
     const essay = document.getElementById('essayInput').value;
-    const maxCharsPerSquare = 300; // Adjust for text size
+    const maxCharsPerSquare = 300; // Maximum characters per square
     const words = essay.split(' ');
     const imagePreview = document.getElementById('imagePreview');
     const downloadButton = document.getElementById('downloadAllButton');
@@ -32,13 +32,14 @@ function createSquare(text, count) {
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, size, size);
 
+    // Format text
     ctx.font = '24px Arial';
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'center';
 
     const lines = wrapText(ctx, text, size - 40);
     lines.forEach((line, i) => {
-        ctx.fillText(line, size / 2, 50 + i * 30);
+        ctx.fillText(line, size / 2, 100 + i * 30);
     });
 
     const imageContainer = document.createElement('div');
@@ -71,10 +72,14 @@ function wrapText(ctx, text, maxWidth) {
 
 document.getElementById('downloadAllButton').addEventListener('click', () => {
     const canvases = document.querySelectorAll('#imagePreview canvas');
+    const zip = new JSZip();
+
     canvases.forEach((canvas, i) => {
-        const link = document.createElement('a');
-        link.download = `square_${i + 1}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
+        const imgData = canvas.toDataURL('image/png').split(',')[1];
+        zip.file(`square_${i + 1}.png`, imgData, { base64: true });
+    });
+
+    zip.generateAsync({ type: 'blob' }).then(content => {
+        saveAs(content, 'squares.zip');
     });
 });
