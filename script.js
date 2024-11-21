@@ -13,7 +13,7 @@ const quill = new Quill('#editor', {
 
 // Handle Generate Squares Button Click
 document.getElementById('generateButton').addEventListener('click', () => {
-    const content = quill.root.innerHTML.trim(); // Get the formatted content
+    const content = quill.root.innerText.trim(); // Get plain text content
     const squarePreview = document.getElementById('squarePreview');
     squarePreview.innerHTML = ''; // Clear previous squares
 
@@ -22,7 +22,14 @@ document.getElementById('generateButton').addEventListener('click', () => {
         return;
     }
 
-    const maxCharsPerSquare = 500; // Limit characters to avoid overflow
+    const maxLinesPerSquare = 15; // Maximum number of lines per square
+    const lineHeight = 1.5; // Line height multiplier
+    const fontSize = 32; // Font size in pixels
+
+    // Calculate how many characters fit per square
+    const maxCharsPerLine = Math.floor(1080 / (fontSize * 0.6)); // Approximate characters per line
+    const maxCharsPerSquare = maxCharsPerLine * maxLinesPerSquare;
+
     const chunks = splitContent(content, maxCharsPerSquare); // Split text into chunks
 
     if (chunks.length === 0) {
@@ -36,19 +43,17 @@ document.getElementById('generateButton').addEventListener('click', () => {
 });
 
 // Function to Split Content into Smaller Chunks
-function splitContent(content, maxChars) {
-    const div = document.createElement('div');
-    div.innerHTML = content;
+function splitContent(content, maxCharsPerSquare) {
+    const words = content.split(' '); // Split content into words
     const chunks = [];
     let currentChunk = '';
 
-    Array.from(div.childNodes).forEach(node => {
-        const nodeHtml = node.outerHTML || node.textContent;
-        if (currentChunk.length + nodeHtml.length > maxChars) {
-            chunks.push(currentChunk);
-            currentChunk = nodeHtml;
+    words.forEach(word => {
+        if ((currentChunk + word).length > maxCharsPerSquare) {
+            chunks.push(currentChunk.trim());
+            currentChunk = word + ' ';
         } else {
-            currentChunk += nodeHtml;
+            currentChunk += word + ' ';
         }
     });
 
@@ -67,7 +72,7 @@ function createSquare(content, index) {
     // Add text container inside the square
     const textContainer = document.createElement('div');
     textContainer.classList.add('squareText');
-    textContainer.innerHTML = content;
+    textContainer.textContent = content;
 
     squareContainer.appendChild(textContainer);
 
