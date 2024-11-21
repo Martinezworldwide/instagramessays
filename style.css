@@ -33,6 +33,7 @@ button {
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
+    margin: 10px 0;
 }
 
 button:hover {
@@ -47,12 +48,25 @@ button:hover {
     margin-top: 20px;
 }
 
+.imageContainer {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+}
+
 .imageContainer canvas {
     border: 1px solid #ddd;
     border-radius: 5px;
 }
 
-#downloadAllButton {
-    margin-top: 20px;
+.downloadButton {
+    margin-top: 10px;
+    display: block;
+    font-size: 14px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #007BFF;
+    padding: 5px 10px;
+    border-radius: 5px;
 }
-
