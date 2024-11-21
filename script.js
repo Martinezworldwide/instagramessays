@@ -1,7 +1,22 @@
+// Initialize QuillJS Editor
+const quill = new Quill('#editor', {
+    theme: 'snow',
+    modules: {
+        toolbar: [
+            ['bold', 'italic', 'underline', 'strike'], // Formatting buttons
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Lists
+            [{ 'align': [] }], // Alignment
+            ['clean'] // Clear formatting
+        ]
+    }
+});
+
+// Generate Squares Button
 document.getElementById('generateButton').addEventListener('click', () => {
-    const essay = document.getElementById('essayInput').value;
-    const maxCharsPerSquare = 300; // Maximum characters per square
-    const words = essay.split(' ');
+    const delta = quill.getContents(); // Get content and formatting
+    const plainText = quill.getText(); // Get plain text for splitting
+    const maxCharsPerSquare = 300; // Adjust for text size
+    const words = plainText.split(' ');
     const imagePreview = document.getElementById('imagePreview');
     const downloadButton = document.getElementById('downloadAllButton');
     imagePreview.innerHTML = '';
@@ -13,7 +28,7 @@ document.getElementById('generateButton').addEventListener('click', () => {
         if ((currentText + word).length > maxCharsPerSquare || index === words.length - 1) {
             if (index === words.length - 1) currentText += ' ' + word;
             squareCount++;
-            createSquare(currentText, squareCount);
+            createSquare(currentText, delta, squareCount);
             currentText = '';
         }
         currentText += (currentText ? ' ' : '') + word;
@@ -22,7 +37,8 @@ document.getElementById('generateButton').addEventListener('click', () => {
     downloadButton.style.display = squareCount > 0 ? 'block' : 'none';
 });
 
-function createSquare(text, count) {
+// Create a Square with Text and Formatting
+function createSquare(text, delta, count) {
     const canvas = document.createElement('canvas');
     const size = 1080; // Instagram square size
     canvas.width = size;
@@ -32,7 +48,7 @@ function createSquare(text, count) {
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, size, size);
 
-    // Format text
+    // Apply text formatting
     ctx.font = '24px Arial';
     ctx.fillStyle = '#000000';
     ctx.textAlign = 'center';
@@ -50,6 +66,7 @@ function createSquare(text, count) {
     imagePreview.appendChild(imageContainer);
 }
 
+// Text Wrapping Function
 function wrapText(ctx, text, maxWidth) {
     const words = text.split(' ');
     const lines = [];
@@ -70,6 +87,7 @@ function wrapText(ctx, text, maxWidth) {
     return lines;
 }
 
+// Download All Images Button
 document.getElementById('downloadAllButton').addEventListener('click', () => {
     const canvases = document.querySelectorAll('#imagePreview canvas');
     const zip = new JSZip();
@@ -83,3 +101,4 @@ document.getElementById('downloadAllButton').addEventListener('click', () => {
         saveAs(content, 'squares.zip');
     });
 });
+
