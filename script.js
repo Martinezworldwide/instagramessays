@@ -1,4 +1,4 @@
-/// Initialize QuillJS Editor
+// Initialize QuillJS Editor
 const quill = new Quill('#editor', {
     theme: 'snow',
     modules: {
@@ -22,15 +22,12 @@ document.getElementById('generateButton').addEventListener('click', () => {
         return;
     }
 
+    const maxHeight = 1080; // Instagram square height in pixels
     const fontSize = 18; // Font size optimized for Instagram
     const lineHeight = 1.5; // Line spacing for readability
-    const maxLinesPerSquare = 30; // Adjusted lines to fit more content
 
-    // Approximate maximum characters per line and square
-    const maxCharsPerLine = Math.floor(1080 / (fontSize * 0.6));
-    const maxCharsPerSquare = maxCharsPerLine * maxLinesPerSquare;
-
-    const chunks = splitContent(content, maxCharsPerSquare); // Split text into chunks
+    // Split content into chunks based on rendered height
+    const chunks = splitContentByHeight(content, fontSize, lineHeight, maxHeight);
 
     if (chunks.length === 0) {
         alert("No content to generate squares.");
@@ -42,33 +39,52 @@ document.getElementById('generateButton').addEventListener('click', () => {
     });
 });
 
-// Function to Split Content into Smaller Chunks
-function splitContent(content, maxCharsPerSquare) {
+// Function to Split Content by Rendered Height
+function splitContentByHeight(content, fontSize, lineHeight, maxHeight) {
     const div = document.createElement('div');
-    div.innerHTML = content;
+    div.style.visibility = 'hidden';
+    div.style.position = 'absolute';
+    div.style.width = '1080px';
+    div.style.fontSize = `${fontSize}px`;
+    div.style.lineHeight = `${lineHeight}`;
+    div.style.whiteSpace = 'pre-wrap';
+    div.style.wordWrap = 'break-word';
+    document.body.appendChild(div);
 
     const chunks = [];
     let currentChunk = '';
-    let currentLength = 0;
+    let remainingContent = content;
 
-    Array.from(div.childNodes).forEach(node => {
-        const nodeHtml = node.outerHTML || node.textContent;
-        const nodeLength = nodeHtml.length;
+    while (remainingContent) {
+        div.innerHTML = currentChunk + remainingContent;
 
-        if (currentLength + nodeLength > maxCharsPerSquare) {
-            chunks.push(currentChunk.trim());
-            currentChunk = nodeHtml;
-            currentLength = nodeLength;
+        if (div.offsetHeight > maxHeight) {
+            // Find the point where the content fits
+            let lastFit = currentChunk.length;
+
+            for (let i = currentChunk.length; i < div.innerHTML.length; i++) {
+                div.innerHTML = remainingContent.slice(0, i);
+                if (div.offsetHeight > maxHeight) {
+                    break;
+                }
+                lastFit = i;
+            }
+
+            // Add the current fitting chunk
+            currentChunk = remainingContent.slice(0, lastFit).trim();
+            chunks.push(currentChunk);
+
+            // Update remaining content
+            remainingContent = remainingContent.slice(lastFit).trim();
+            currentChunk = '';
         } else {
-            currentChunk += nodeHtml;
-            currentLength += nodeLength;
+            // Add all remaining content as the last chunk
+            chunks.push(remainingContent.trim());
+            break;
         }
-    });
-
-    if (currentChunk.trim()) {
-        chunks.push(currentChunk.trim());
     }
 
+    document.body.removeChild(div); // Clean up the measurement div
     return chunks;
 }
 
