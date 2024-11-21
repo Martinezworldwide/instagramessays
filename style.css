@@ -49,15 +49,12 @@ button:hover {
     margin-top: 20px;
 }
 
-.imageContainer {
-    position: relative;
-}
-
 .imageContainer canvas {
     border: 1px solid #ddd;
     border-radius: 5px;
 }
 
-button#downloadAllButton {
+#downloadAllButton {
     margin-top: 20px;
 }
+
