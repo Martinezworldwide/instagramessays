@@ -3,22 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Essay to Squares Generator</title>
+    <title>Essay to Images</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Include QuillJS CSS -->
-    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <h1>Essay to Squares Generator</h1>
-        <div id="editor"></div>
-        <button id="generateButton">Generate Squares</button>
+        <h1>Essay to Images Generator</h1>
+        <textarea id="essayInput" placeholder="Paste or type your essay here..."></textarea>
+        <button id="generateButton">Generate Images</button>
         <div id="imagePreview"></div>
     </div>
-    <!-- Include QuillJS and html2canvas Libraries -->
-    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
-
