@@ -11,42 +11,18 @@ const quill = new Quill('#editor', {
     }
 });
 
-// Event Listener for "Generate Images"
+// Handle Generate Images Button Click
 document.getElementById('generateButton').addEventListener('click', () => {
     const content = quill.root.innerHTML; // Get the formatted content
-    const maxLength = 1200; // Maximum characters per image
-    const chunks = splitContent(content, maxLength); // Split content into manageable chunks
     const imagePreview = document.getElementById('imagePreview');
-    imagePreview.innerHTML = ''; // Clear previous images
+    imagePreview.innerHTML = ''; // Clear any previous images
 
-    chunks.forEach((chunk, index) => {
-        createImage(chunk, index); // Generate images for each chunk
-    });
+    // Create and render image
+    createImage(content);
 });
 
-// Function to Split Content into Chunks
-function splitContent(html, maxLength) {
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    const chunks = [];
-    let currentChunk = '';
-
-    Array.from(div.childNodes).forEach(node => {
-        const nodeHtml = node.outerHTML || node.textContent;
-        if (currentChunk.length + nodeHtml.length > maxLength) {
-            chunks.push(currentChunk);
-            currentChunk = nodeHtml;
-        } else {
-            currentChunk += nodeHtml;
-        }
-    });
-
-    if (currentChunk) chunks.push(currentChunk);
-    return chunks;
-}
-
-// Function to Create an Image for a Chunk
-function createImage(content, index) {
+// Function to Create Image from Content
+function createImage(content) {
     const container = document.createElement('div');
     container.innerHTML = content;
     container.style.width = '1080px';
@@ -59,7 +35,11 @@ function createImage(content, index) {
     container.style.fontSize = '24px';
     container.style.lineHeight = '1.5';
     container.style.textAlign = 'center';
+    container.style.display = 'flex';
+    container.style.justifyContent = 'center';
+    container.style.alignItems = 'center';
 
+    // Convert the container to an image
     html2canvas(container).then(canvas => {
         const imageContainer = document.createElement('div');
         imageContainer.classList.add('imageContainer');
@@ -72,10 +52,10 @@ function createImage(content, index) {
         downloadButton.classList.add('downloadButton');
         downloadButton.textContent = 'Download Image';
         downloadButton.href = canvas.toDataURL('image/png');
-        downloadButton.download = `image_${index + 1}.png`;
+        downloadButton.download = `image.png`;
         imageContainer.appendChild(downloadButton);
 
-        // Append to the preview
+        // Append to the preview area
         document.getElementById('imagePreview').appendChild(imageContainer);
     });
 }
