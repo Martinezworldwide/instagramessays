@@ -13,7 +13,7 @@ const quill = new Quill('#editor', {
 
 // Handle Generate Squares Button Click
 document.getElementById('generateButton').addEventListener('click', () => {
-    const content = quill.root.innerText.trim(); // Get plain text content
+    const content = quill.root.innerHTML.trim(); // Get full HTML content with formatting
     const squarePreview = document.getElementById('squarePreview');
     squarePreview.innerHTML = ''; // Clear previous squares
 
@@ -22,15 +22,15 @@ document.getElementById('generateButton').addEventListener('click', () => {
         return;
     }
 
-    const maxLinesPerSquare = 15; // Maximum number of lines per square
-    const lineHeight = 1.5; // Line height multiplier
-    const fontSize = 32; // Font size in pixels
+    const maxLinesPerSquare = 18; // Increased number of lines per square
+    const fontSize = 24; // Smaller font size to fit more text
+    const lineHeight = 1.5; // Adjust line spacing
 
-    // Calculate how many characters fit per square
+    // Approximate maximum characters per line and square
     const maxCharsPerLine = Math.floor(1080 / (fontSize * 0.6)); // Approximate characters per line
     const maxCharsPerSquare = maxCharsPerLine * maxLinesPerSquare;
 
-    const chunks = splitContent(content, maxCharsPerLine, maxLinesPerSquare); // Split text into chunks
+    const chunks = splitContent(content, maxCharsPerSquare); // Split text into chunks
 
     if (chunks.length === 0) {
         alert("No content to generate squares.");
@@ -38,51 +38,51 @@ document.getElementById('generateButton').addEventListener('click', () => {
     }
 
     chunks.forEach((chunk, index) => {
-        createSquare(chunk, index); // Generate squares for each chunk
+        createSquare(chunk, index, fontSize, lineHeight); // Generate squares for each chunk
     });
 });
 
 // Function to Split Content into Smaller Chunks
-function splitContent(content, maxCharsPerLine, maxLinesPerSquare) {
-    const words = content.split(' '); // Split content into words
+function splitContent(content, maxCharsPerSquare) {
+    const div = document.createElement('div');
+    div.innerHTML = content;
+
     const chunks = [];
     let currentChunk = '';
-    let currentLine = 0;
+    let currentLength = 0;
 
-    words.forEach(word => {
-        const testLine = currentChunk + word + ' ';
-        const lineChars = testLine.length;
+    Array.from(div.childNodes).forEach(node => {
+        const nodeHtml = node.outerHTML || node.textContent;
+        const nodeLength = nodeHtml.length;
 
-        if (lineChars / maxCharsPerLine > 1) {
-            // If the current line exceeds max characters
-            currentLine++;
-
-            if (currentLine >= maxLinesPerSquare) {
-                chunks.push(currentChunk.trim()); // Add the chunk to the list
-                currentChunk = ''; // Start a new chunk
-                currentLine = 0; // Reset line count
-            }
+        if (currentLength + nodeLength > maxCharsPerSquare) {
+            chunks.push(currentChunk.trim());
+            currentChunk = nodeHtml;
+            currentLength = nodeLength;
+        } else {
+            currentChunk += nodeHtml;
+            currentLength += nodeLength;
         }
-
-        currentChunk += word + ' ';
     });
 
     if (currentChunk.trim()) {
-        chunks.push(currentChunk.trim()); // Add any remaining content
+        chunks.push(currentChunk.trim());
     }
 
     return chunks;
 }
 
 // Function to Create an Individual Square
-function createSquare(content, index) {
+function createSquare(content, index, fontSize, lineHeight) {
     const squareContainer = document.createElement('div');
     squareContainer.classList.add('squareContainer');
 
     // Add text container inside the square
     const textContainer = document.createElement('div');
     textContainer.classList.add('squareText');
-    textContainer.textContent = content;
+    textContainer.innerHTML = content; // Use HTML content with formatting
+    textContainer.style.fontSize = `${fontSize}px`; // Set dynamic font size
+    textContainer.style.lineHeight = `${lineHeight}`; // Set dynamic line height
 
     squareContainer.appendChild(textContainer);
 
