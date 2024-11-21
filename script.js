@@ -22,9 +22,9 @@ document.getElementById('generateButton').addEventListener('click', () => {
         return;
     }
 
-    const maxLinesPerSquare = 18; // Increased number of lines per square
-    const fontSize = 24; // Smaller font size to fit more text
-    const lineHeight = 1.5; // Adjust line spacing
+    const maxLinesPerSquare = 40; // Increased number of lines per square for smaller font size
+    const fontSize = 12; // Set font size to 12px
+    const lineHeight = 1.5; // Adjust line spacing for readability
 
     // Approximate maximum characters per line and square
     const maxCharsPerLine = Math.floor(1080 / (fontSize * 0.6)); // Approximate characters per line
@@ -81,7 +81,7 @@ function createSquare(content, index, fontSize, lineHeight) {
     const textContainer = document.createElement('div');
     textContainer.classList.add('squareText');
     textContainer.innerHTML = content; // Use HTML content with formatting
-    textContainer.style.fontSize = `${fontSize}px`; // Set dynamic font size
+    textContainer.style.fontSize = `${fontSize}px`; // Set dynamic font size to 12px
     textContainer.style.lineHeight = `${lineHeight}`; // Set dynamic line height
 
     squareContainer.appendChild(textContainer);
@@ -111,3 +111,4 @@ function createSquare(content, index, fontSize, lineHeight) {
         console.error("Error generating square:", err);
     });
 }
+
