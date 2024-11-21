@@ -65,7 +65,7 @@ button:hover {
     border: 1px solid #ddd;
     box-sizing: border-box;
     background-color: #ffffff;
-    overflow: hidden;
+    overflow: hidden; /* Prevent text overflow */
     display: flex;
     flex-direction: column; /* Ensure text flows top-to-bottom */
     justify-content: flex-start; /* Align text at the top */
