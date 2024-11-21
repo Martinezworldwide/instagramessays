@@ -30,7 +30,7 @@ document.getElementById('generateButton').addEventListener('click', () => {
     const maxCharsPerLine = Math.floor(1080 / (fontSize * 0.6)); // Approximate characters per line
     const maxCharsPerSquare = maxCharsPerLine * maxLinesPerSquare;
 
-    const chunks = splitContent(content, maxCharsPerSquare); // Split text into chunks
+    const chunks = splitContent(content, maxCharsPerLine, maxLinesPerSquare); // Split text into chunks
 
     if (chunks.length === 0) {
         alert("No content to generate squares.");
@@ -43,22 +43,32 @@ document.getElementById('generateButton').addEventListener('click', () => {
 });
 
 // Function to Split Content into Smaller Chunks
-function splitContent(content, maxCharsPerSquare) {
+function splitContent(content, maxCharsPerLine, maxLinesPerSquare) {
     const words = content.split(' '); // Split content into words
     const chunks = [];
     let currentChunk = '';
+    let currentLine = 0;
 
     words.forEach(word => {
-        if ((currentChunk + word).length > maxCharsPerSquare) {
-            chunks.push(currentChunk.trim());
-            currentChunk = word + ' ';
-        } else {
-            currentChunk += word + ' ';
+        const testLine = currentChunk + word + ' ';
+        const lineChars = testLine.length;
+
+        if (lineChars / maxCharsPerLine > 1) {
+            // If the current line exceeds max characters
+            currentLine++;
+
+            if (currentLine >= maxLinesPerSquare) {
+                chunks.push(currentChunk.trim()); // Add the chunk to the list
+                currentChunk = ''; // Start a new chunk
+                currentLine = 0; // Reset line count
+            }
         }
+
+        currentChunk += word + ' ';
     });
 
     if (currentChunk.trim()) {
-        chunks.push(currentChunk.trim());
+        chunks.push(currentChunk.trim()); // Add any remaining content
     }
 
     return chunks;
