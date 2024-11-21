@@ -77,7 +77,7 @@ function createSquare(content, index) {
 
     // Convert squareContainer to canvas
     html2canvas(squareContainer, {
-        scale: 2, // Higher scale for better resolution
+        scale: 2, // Higher resolution for better quality
     }).then(canvas => {
         squareContainer.innerHTML = ''; // Clear inner content
         squareContainer.appendChild(canvas);
