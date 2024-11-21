@@ -11,7 +11,7 @@ body {
 
 .container {
     width: 90%;
-    max-width: 800px;
+    max-width: 600px;
     text-align: center;
     background: #fff;
     padding: 20px;
@@ -19,55 +19,24 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-#editor {
-    height: 300px;
-    margin-bottom: 20px;
+#screenshotArea {
+    width: 100%;
+    min-height: 300px;
     border: 1px solid #ccc;
     padding: 10px;
     background-color: #ffffff;
-}
-
-button {
-    background-color: #007BFF;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
     border-radius: 5px;
+    text-align: left;
+    font-size: 18px;
+    line-height: 1.6;
+    overflow: auto;
 }
 
-button:hover {
-    background-color: #0056b3;
+#screenshotArea ul {
+    padding-left: 20px;
 }
 
-#imagePreview {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.imageContainer {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-canvas {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    display: block;
-    margin: 0 auto;
-}
-
-.downloadButton {
-    margin-top: 10px;
-    display: inline-block;
-    text-decoration: none;
-    color: #fff;
-    background-color: #007BFF;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 14px;
+#screenshotArea p,
+#screenshotArea ul li {
+    margin: 10px 0;
 }
