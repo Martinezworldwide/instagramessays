@@ -60,12 +60,16 @@ button:hover {
     border: 1px solid #ddd;
     box-sizing: border-box;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: start; /* Align text at the top */
+    align-items: start; /* Align text at the top */
     background-color: #ffffff;
-    text-align: center;
-    padding: 20px;
+    text-align: left; /* Ensure text aligns to the left */
+    padding: 40px;
     overflow: hidden;
+    font-family: Arial, sans-serif; /* Match editor font */
+    font-size: 32px; /* Adjust for readability */
+    line-height: 1.5;
+    word-wrap: break-word;
 }
 
 .downloadButton {
