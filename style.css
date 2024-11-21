@@ -62,7 +62,7 @@ button:hover {
     position: relative;
     width: 1080px; /* Exact Instagram square dimensions */
     height: 1080px;
-    border: 1px solid #ddd;
+    border: none; /* Remove borders or dividing lines */
     box-sizing: border-box;
     background-color: #ffffff; /* Default white background */
     overflow: hidden;
@@ -70,7 +70,7 @@ button:hover {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 20px;
+    padding: 0; /* Remove extra padding */
 }
 
 /* Text Inside the Square */
@@ -94,3 +94,4 @@ button:hover {
     font-size: 14px;
     text-decoration: none;
 }
+
