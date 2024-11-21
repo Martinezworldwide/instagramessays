@@ -16,14 +16,11 @@ document.getElementById('generateButton').addEventListener('click', () => {
     const maxLength = 900; // Max characters per square
     const chunks = splitText(content, maxLength);
     const imagePreview = document.getElementById('imagePreview');
-    const downloadButton = document.getElementById('downloadAllButton');
     imagePreview.innerHTML = '';
 
     chunks.forEach((chunk, index) => {
         createSquare(chunk, index);
     });
-
-    downloadButton.style.display = chunks.length > 0 ? 'block' : 'none';
 });
 
 // Split text into chunks while preserving formatting
@@ -65,24 +62,18 @@ function createSquare(content, index) {
     html2canvas(container).then(canvas => {
         const imageContainer = document.createElement('div');
         imageContainer.classList.add('imageContainer');
+
+        // Add canvas to container
         imageContainer.appendChild(canvas);
 
+        // Create download button
+        const downloadButton = document.createElement('a');
+        downloadButton.classList.add('downloadButton');
+        downloadButton.textContent = 'Download';
+        downloadButton.href = canvas.toDataURL('image/png');
+        downloadButton.download = `square_${index + 1}.png`;
+
+        imageContainer.appendChild(downloadButton);
         document.getElementById('imagePreview').appendChild(imageContainer);
     });
 }
-
-// Download all images as a ZIP file
-document.getElementById('downloadAllButton').addEventListener('click', () => {
-    const canvases = document.querySelectorAll('#imagePreview canvas');
-    const zip = new JSZip();
-
-    canvases.forEach((canvas, i) => {
-        const imgData = canvas.toDataURL('image/png').split(',')[1];
-        zip.file(`square_${i + 1}.png`, imgData, { base64: true });
-    });
-
-    zip.generateAsync({ type: 'blob' }).then(content => {
-        saveAs(content, 'squares.zip');
-    });
-});
-
