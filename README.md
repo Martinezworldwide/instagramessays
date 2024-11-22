@@ -1,3 +1,3 @@
 # instagramessays
-https://martinezworldwide.github.io/instagramessays
+https://martinezworldwide.github.io/truthessays
 
