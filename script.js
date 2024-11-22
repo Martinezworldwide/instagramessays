@@ -3,30 +3,24 @@ const quill = new Quill('#editor', {
     theme: 'snow',
     modules: {
         toolbar: [
-            ['bold', 'italic', 'underline', 'strike'], // Formatting buttons
+            ['bold', 'italic', 'underline', 'strike'], // Basic formatting buttons
             [{ 'list': 'ordered' }, { 'list': 'bullet' }], // Lists
-            [{ 'align': [] }], // Alignment
+            [{ 'align': [] }], // Text alignment
             ['clean'] // Clear formatting
         ]
     }
 });
 
-// Template Selector Logic
-const templateSelector = document.getElementById('template');
+// Template Toggle Logic
 const container = document.querySelector('.container');
+const templates = ['gradient', 'solid', 'pattern'];
+let currentTemplate = 0;
 
-templateSelector.addEventListener('change', (e) => {
-    const selectedTemplate = e.target.value;
+document.getElementById('toggleTemplate').addEventListener('click', () => {
+    // Remove current template class
+    container.classList.remove(...templates);
 
-    // Remove previous templates
-    container.classList.remove('gradient', 'solid', 'pattern');
-
-    // Add the selected template
-    if (selectedTemplate === 'gradient') {
-        container.classList.add('gradient');
-    } else if (selectedTemplate === 'solid') {
-        container.classList.add('solid');
-    } else if (selectedTemplate === 'pattern') {
-        container.classList.add('pattern');
-    }
+    // Apply the next template
+    currentTemplate = (currentTemplate + 1) % templates.length;
+    container.classList.add(templates[currentTemplate]);
 });
