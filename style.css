@@ -3,35 +3,45 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
     background-color: #f4f4f4;
-    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 
+/* Controls */
 .controls {
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.controls h1 {
-    font-size: 24px;
     margin-bottom: 10px;
 }
 
-.controls select {
-    padding: 10px;
+.controls button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
     font-size: 16px;
+    cursor: pointer;
+}
+
+.controls button:hover {
+    background-color: #0056b3;
 }
 
 /* Instagram Square Container */
 .container {
-    width: 1080px; /* Exact Instagram square width */
-    height: 1080px; /* Exact Instagram square height */
-    border-radius: 10px;
+    width: 100%;
+    max-width: 1080px; /* Keeps the square at Instagram size */
+    height: 100vw; /* Keeps a 1:1 ratio on mobile */
+    max-height: 1080px;
+    background: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
+    border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     position: relative;
 }
@@ -40,11 +50,11 @@ body {
 #editor {
     width: 100%;
     height: 100%;
-    padding: 50px;
-    font-size: 18px;
-    overflow-y: auto;
+    padding: 20px;
     box-sizing: border-box;
+    overflow-y: auto;
     text-align: center;
+    font-size: 18px;
 }
 
 /* Templates */
@@ -53,7 +63,7 @@ body {
 }
 
 .container.solid {
-    background: #6c5ce7; /* Purple solid color */
+    background: #6c5ce7;
     color: #fff;
 }
 
